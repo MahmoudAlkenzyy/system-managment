@@ -2,8 +2,11 @@ import { FaPen } from "react-icons/fa";
 import { userInterface } from "../../types";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { DeleteModal } from "../DeleteModal/DeleteModal";
+import { useState } from "react";
 
 const UserRow = ({ user }: { user: userInterface }) => {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <>
       <tr className="bg-white border-b text-center hover:bg-gray-50 ">
@@ -21,11 +24,17 @@ const UserRow = ({ user }: { user: userInterface }) => {
           </Link>
         </th>
         <th scope="col" className="px-6 py-3">
-          <span className="">
+          <button
+            className=""
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
             <MdDeleteForever />
-          </span>
+          </button>
         </th>
       </tr>
+      <DeleteModal openModal={openModal} setOpenModal={setOpenModal} />
     </>
   );
 };
