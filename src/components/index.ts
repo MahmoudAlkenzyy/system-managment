@@ -7,5 +7,6 @@ import UserForm from "./UserForm/UserForm";
 import NavBar from "./NavBar/NavBar";
 import ProtectedRoute from "./protectedRoute/ProtectedRoute";
 import Home from "./Home/Home";
+import NotFound from "./NotFound/NotFound";
 
-export { Login, MasterLayout, UserList, UserRow, AddUser, UserForm, NavBar, ProtectedRoute, Home };
+export { Login, MasterLayout, UserList, UserRow, AddUser, UserForm, NavBar, ProtectedRoute, Home, NotFound };

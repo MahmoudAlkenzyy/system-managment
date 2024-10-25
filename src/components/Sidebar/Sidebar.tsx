@@ -4,11 +4,12 @@ import { LiaCommentDollarSolid } from "react-icons/lia";
 import { LuGraduationCap } from "react-icons/lu";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext/Authcontext";
+import { FaAlignJustify } from "react-icons/fa";
 const MySidebar = () => {
   const authContext = useContext(AuthContext);
-
+  const [collapsed, setCollapsed] = useState(false);
   if (!authContext) {
     throw new Error("useContext must be used within an AuthProvider");
   }
@@ -17,8 +18,9 @@ const MySidebar = () => {
     localStorage.removeItem("userTkn");
   };
   return (
-    <>
-      <Sidebar className="h-full">
+    <div className="relative h-full">
+      <FaAlignJustify onClick={() => setCollapsed((val) => !val)} size={24} className="absolute end-0 translate-x-full  " />
+      <Sidebar className="h-full relative " collapsed={collapsed}>
         <Menu
           className="px-4"
           menuItemStyles={{
@@ -54,7 +56,7 @@ const MySidebar = () => {
           </MenuItem>
         </Menu>
       </Sidebar>
-    </>
+    </div>
   );
 };
 

@@ -18,19 +18,19 @@ const UserRow = ({ user }: { user: userInterface }) => {
         <td className="">{user.phone}</td>
         <td className="">{user.ssn}</td>
         <td className="">{user.birthDate}</td>
-        <th scope="col" className="px-6 py-3">
+        <th scope="col" className="px-4 py-3">
           <Link to={`/dashboard/editUser/${user.id}`} className="">
-            <FaPen />
+            <FaPen size={16} color="#FEAF01" />
           </Link>
         </th>
-        <th scope="col" className="px-6 py-3">
+        <th scope="col" className="px-4 py-3">
           <button
             className=""
             onClick={() => {
               setOpenModal(true);
             }}
           >
-            <MdDeleteForever />
+            <MdDeleteForever size={22} color="red" />
           </button>
         </th>
       </tr>

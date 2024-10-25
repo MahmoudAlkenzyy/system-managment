@@ -5,7 +5,7 @@ import { NavBar } from "../index";
 const MasterLayout = () => {
   return (
     <div className="flex ">
-      <div>
+      <div className="min-h-screen">
         <Sidebar />
       </div>
       <div className=" bg-gray-50 flex-grow">

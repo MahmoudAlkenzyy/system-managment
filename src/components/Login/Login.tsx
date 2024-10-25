@@ -1,38 +1,16 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { LoginFormInputs } from "../../types";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext/Authcontext";
+import React, { useState } from "react";
+import { useLogin } from "../../custom/useLogin";
+import { FaRegEye } from "react-icons/fa";
+import { Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const { errors, handleSubmit, onSubmit, register } = useLogin();
 
-  if (!authContext) {
-    throw new Error("useContext must be used within an AuthProvider");
-  }
+  const encodedToken = localStorage.getItem("userTkn");
 
-  const { setUserData } = authContext;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>();
+  if (encodedToken) return <Navigate to={"/dashboard/home"} />;
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (val) => {
-    try {
-      const { data } = await axios.post(`https://dummyjson.com/auth/login`, val);
-      localStorage.setItem("userTkn", data.accessToken);
-      setUserData();
-      navigate("/dashboard");
-      toast.success(`wlecome back ${data.firstName}`);
-    } catch (error) {
-      console.log(error);
-      toast.error("Auth error try again");
-    }
-  };
   return (
     <section className="bg-gradient-to-tr from-[#FEAF01] to-[#f8d442]  min-h-[100vh]">
       <div className="flex flex-col min-h-[100vh] items-center justify-center px-6 py-8 mx-auto = lg:py-0">
@@ -60,16 +38,22 @@ const Login: React.FC = () => {
                 />
                 {errors.username && <div>{errors.username?.message}</div>}
               </div>
-              <div>
+              <div className="relative">
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 -white">
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 -gray-700 -gray-600 -gray-400 -white :ring-blue-500 :border-blue-500"
                   {...register("password", { required: "password is required", minLength: 5 })}
+                />{" "}
+                <FaRegEye
+                  size={35}
+                  color={showPassword ? "#FEAF01" : "gray"}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-[50%] -translate-y-1 transition-all right-0 pr-3 flex items-center text-gray-700"
                 />
                 {errors.password && <div>{`${errors.password?.message}`}</div>}
               </div>

@@ -3,12 +3,17 @@ import { useAllUsers } from "../../custom/useAllUsers";
 import { MdDeleteForever } from "react-icons/md";
 import { UserRow } from "../index";
 import { userInterface } from "../../types";
+import { Pagination } from "flowbite-react";
+import { useState } from "react";
+import { Loader } from "../Loader/Loader";
 
 const UserList = () => {
   const { AllUsers, isLoading } = useAllUsers();
   console.log({ AllUsers });
+  const [currentPage, setCurrentPage] = useState(1);
 
-  if (isLoading) return <p>Loading...</p>;
+  const onPageChange = (page: number) => setCurrentPage(page);
+  if (isLoading) return <Loader />;
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -45,11 +50,14 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {AllUsers?.map((user: userInterface, idx: number) => {
+            {AllUsers?.slice((currentPage - 1) * 5, currentPage * 5).map((user: userInterface, idx: number) => {
               return <UserRow key={idx} user={user} />;
             })}
           </tbody>
         </table>
+      </div>
+      <div className="flex py-5 overflow-x-auto sm:justify-center">
+        <Pagination currentPage={currentPage} totalPages={100} onPageChange={onPageChange} />
       </div>
     </div>
   );

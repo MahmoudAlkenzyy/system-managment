@@ -1,15 +1,24 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { AddUser, Home, Login, MasterLayout, ProtectedRoute, UserList } from "./components/index";
+import { AddUser, Home, Login, MasterLayout, NotFound, ProtectedRoute, UserList } from "./components/index";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContextProvider } from "./context/AuthContext/Authcontext";
 function App() {
   const router = createHashRouter([
-    { path: "", element: <Login /> },
+    {
+      path: "/",
+      element: (
+        // <ProtectedRoute>
+        <Login />
+        // </ProtectedRoute>
+      ),
+      errorElement: <NotFound />,
+    },
     {
       path: "/dashboard",
+
       element: (
         <ProtectedRoute>
           <MasterLayout />
